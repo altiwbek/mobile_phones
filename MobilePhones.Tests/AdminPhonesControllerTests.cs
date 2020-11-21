@@ -38,7 +38,7 @@ namespace MobilePhones.Tests
             cleanUpSearchPattern = "*.jpg";
             int beforeCount = _context.Phones.Count();
             var file = new Mock<IFormFile>();
-            var sourceImg = File.OpenRead(@"..\..\..\..\MobilePhones.Tests\testfiles\phone_test_image.jpg");
+            
             var fileName = "test.jpg";
             file.Setup(f => f.FileName).Returns(fileName).Verifiable();
             _hostEnv.Setup(h => h.WebRootPath).Returns(@"..\..\..\..\MobilePhones.Tests\testfiles\").Verifiable();
