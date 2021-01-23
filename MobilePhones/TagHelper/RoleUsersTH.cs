@@ -36,4 +36,23 @@ namespace MobilePhones.TagHelpers
             output.Content.SetContent(names.Count == 0 ? "No Users" : string.Join(", ", names));
         }
     }
+
+    [HtmlTargetElement("MyButton")]
+    public class MyButton : TagHelper
+    {
+        public string Type { get; set; }
+
+        [HtmlAttributeName("bg-color")]
+        public string BgColor { get; set; }
+
+        public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
+        {
+            output.TagName = "button";
+            output.TagMode = TagMode.StartTagAndEndTag;
+            output.Attributes.SetAttribute("class", $"btn btn-{BgColor}");
+            output.Attributes.SetAttribute("type", Type);
+            output.Content.SetContent(Type == "submit" ? "Add" : "Reset");
+        }
+
+    }
 }

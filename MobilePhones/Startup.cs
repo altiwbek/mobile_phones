@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,7 +14,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Localization;
+using Microsoft.IdentityModel.Tokens;
 using MobilePhones.Models;
+using MobilePhones.Services;
 
 namespace MobilePhones
 {
@@ -21,7 +24,9 @@ namespace MobilePhones
     {
         public Startup(IConfiguration configuration)
         {
+            
             Configuration = configuration;
+
         }
 
         public IConfiguration Configuration { get; }
@@ -29,6 +34,8 @@ namespace MobilePhones
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
+
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddControllersWithViews().AddDataAnnotationsLocalization(options => {
                 options.DataAnnotationLocalizerProvider = (type, factory) =>
@@ -48,11 +55,15 @@ namespace MobilePhones
                 options.SupportedUICultures = supportedCultures;
             });
 
-            string connection = Configuration.GetConnectionString("DefaultConnection");
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("super secret key"));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            string connection = Configuration["AppSettings:ConnectionStrings:DefaultConnection"];
             services.AddDbContext<MobileContext>(options => options.UseSqlServer(connection));
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<MobileContext>();
 
+            services.AddViewToStringRendererService();
             services.ConfigureApplicationCookie(options =>
             {
               

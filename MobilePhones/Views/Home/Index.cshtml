@@ -4,11 +4,9 @@
 
 <div class="text-center">
     <h1 class="display-4">@ViewBag.Title</h1>
-    <p>@ViewBag.Message</p>
 </div>
 
-<h2>@Localizer["Prices"]</h2>
-
+<MyButton type="button" bg-color="danger"></MyButton>
 
 <div class="card-deck mb-3 text-center">
 
@@ -22,8 +20,10 @@
                 <h1 class="card-title pricing-card-title">$@phone.Price <small class="text-muted"></small></h1>
                 <img src="@phone.ImagePath()" alt="Alternate Text" width="200" />
                 <hr />
-                <button type="button" class="order-btn btn btn-lg btn-block btn-outline-primary" 
-                        data-toggle="modal" data-target="#orderModal" data-phoneid="@phone.Id">Order</button>
+                <button type="button" class="order-btn btn btn-lg btn-block btn-outline-primary"
+                        data-toggle="modal" data-target="#orderModal" data-phoneid="@phone.Id">
+                    Order
+                </button>
             </div>
         </div>
     }
@@ -64,7 +64,7 @@
 
                 </div>
             </form>
-            
+
         </div>
     </div>
 </div>
@@ -73,7 +73,7 @@
 
     <script>
         var modalForm = $('form#modal-order-form');
-        
+
         $('.order-btn').on('click', function () {
             var phoneId = $(this).data('phoneid');
             var phoneIdInput = $(modalForm).find('input[name="phone_id"]');
